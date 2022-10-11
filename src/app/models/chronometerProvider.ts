@@ -18,14 +18,14 @@ export class ChronometerProvider {
     startTimer() {
         this.Model.isRunning = true;
         this.interval = setInterval(() => {
-            this.Model.Timer.tens += 1;
-            if (this.Model.Timer.tens == 10) {
-                this.Model.Timer.tens = 0;
-                this.Model.Timer.seconds += 1;
+            this.Model.timer.milliseconds += 1;
+            if (this.Model.timer.milliseconds == 10) {
+                this.Model.timer.milliseconds = 0;
+                this.Model.timer.seconds += 1;
             }
-            if (this.Model.Timer.seconds == 60) {
-                this.Model.Timer.seconds = 0;
-                this.Model.Timer.minutes += 1;
+            if (this.Model.timer.seconds == 60) {
+                this.Model.timer.seconds = 0;
+                this.Model.timer.minutes += 1;
             }
         }, 100)
     }
@@ -37,8 +37,8 @@ export class ChronometerProvider {
 
     resetTimer() {
         this.stopTimer();
-        this.Model.Timer.minutes = 0;
-        this.Model.Timer.seconds = 0;
-        this.Model.Timer.tens = 0;
+        this.Model.timer.minutes = 0;
+        this.Model.timer.seconds = 0;
+        this.Model.timer.milliseconds = 0;
     }
 }

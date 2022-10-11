@@ -2,7 +2,7 @@
   <ul class="messages-ul"></ul>
 </div>
 
-<button class="add-timer-button" id="add-timer-button-id" (click)="AddChronometerUI()">Add Chronometer</button>
+<button class="add-timer-button" (click)="addChronometer()">Add Chronometer</button>
 <div class="mega-wrap" id="mega-wrap">
-  <chronometer *ngFor="let chronometerProvider of chronometerService.providers.values" [chronometerProvider] = "chronometerProvider"></chronometer>
+  <chronometer *ngFor="let provider of chronometerService.providers.values()" [chronometerProvider] = "provider"></chronometer>
 </div>

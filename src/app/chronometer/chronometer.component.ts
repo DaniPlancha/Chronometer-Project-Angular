@@ -22,6 +22,6 @@ export class ChronometerComponent implements OnInit {
   }
 
   RemoveChronometer() {
-    this.service.RemoveChronometer(this.chronometerProvider.Model.id);
+    this.service.removeChronometer(this.chronometerProvider.Model.id);
   }
 }

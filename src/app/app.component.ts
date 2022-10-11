@@ -14,10 +14,12 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.chronometerService.startConnection();
-    this.chronometerService.AddListener();
+    this.chronometerService.createAddListener();
+    this.chronometerService.createGetListener();
+    this.chronometerService.getChronometers();
   }
 
-  AddChronometerUI() {
-    let chronometerProvider: ChronometerProvider = this.chronometerService.AddChronometer();
+  addChronometer() {
+    this.chronometerService.addChronometer();
   }
 }

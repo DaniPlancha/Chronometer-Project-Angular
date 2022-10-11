@@ -9,45 +9,57 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ChronometerService {
   constructor(private httpClient: HttpClient) { }
-  public providers: Map<number, ChronometerProvider> = new Map<number, ChronometerProvider>;
+  public providers: Map<number, ChronometerProvider> = new Map;
 
   private connection!: signalR.HubConnection;
   
-  startConnection() {
+  public startConnection(): void {
     this.connection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:5001/chronometerSignalR')
+      .withUrl('https://localhost:5001/chronometersSignalR')
       .build();
 
     this.connection
       .start()
-      .then(() => { console.log('connection started') })
+      .then(() => { console.log('< connection started successfully ! >') })
       .catch(err => console.log(err));
   }
 
-  AddListener() {
-    this.connection.on('Add', (message) => {
-      // if (!this.allProviders.has(message.id))
-      //   this.AddChronometerData();
-      console.log("from post: " + message);
-    });
-  }
-
-  public AddChronometer(): any {
-    this.httpClient.post('https://localhost:5001/chronometer', {}, {
+  public addChronometer(): void {
+    this.httpClient.post('https://localhost:5001/api/chronometer', {}, {
       headers: {
         'Content-Type': 'application/json'
       }
-    }).subscribe(() => {console.log('post successful!')});
-    //return this.AddChronometerData();
+    }).subscribe(() => {console.log('< post successful ! >')});
   }
 
-  private AddChronometerData(providerModel:ChronometerModel): ChronometerProvider {
-    let providerProvider = new ChronometerProvider(providerModel);
-    this.providers.set(providerModel.id, providerProvider);
-    return providerProvider;
+  public createAddListener(): void {
+    this.connection.on('Add', (model) => {
+      this.addChronometerData(model);
+    });
+  }
+  
+  public createGetListener(): void {
+    this.connection.on('Get', (models: any[]) => {
+      models.forEach((currentModel) => {
+        this.providers.set(currentModel.id, new ChronometerProvider(currentModel));
+      });
+    });
   }
 
-  RemoveChronometer(id: number) {
+  public getChronometers() {
+    this.httpClient.get('https://localhost:5001/api/chronometer', {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).subscribe((res) => {console.log('< get successful ! >' + res)});
+  }
+
+  private addChronometerData(model: ChronometerModel): void {
+    let provider = new ChronometerProvider(model);
+    this.providers.set(model.id, provider);
+  }
+
+  removeChronometer(id: number) {
     // let provider = this.allProviders[id];
     // provider.resetTimer();
     // provider.isRemoved = true;
