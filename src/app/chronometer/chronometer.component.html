@@ -1,0 +1,11 @@
+<div *ngIf="!chronometerProvider.isRemoved" class="all-timer-info-wrap">
+    <p id="timer-info-paragraph{{ chronometerProvider.Model.id }}">
+        <span id="minutes{{ chronometerProvider.Model.id }}">{{ chronometerProvider.Model.Timer.minutes.toString().padStart(2, '0') }}</span> :
+        <span id="seconds{{ chronometerProvider.Model.id }}">{{ chronometerProvider.Model.Timer.seconds.toString().padStart(2, '0') }}</span> :
+        <span id="miliseconds{{ chronometerProvider.Model.id }}">{{ chronometerProvider.Model.Timer.tens }}</span>
+    </p>
+    <button *ngIf="chronometerProvider.Model.isRunning" id="main-button-id{{ chronometerProvider.Model.id }}" class="stop-button" (click)="StartStopChronometer()" #mainButton></button>
+    <button *ngIf="!chronometerProvider.Model.isRunning" id="main-button-id{{ chronometerProvider.Model.id }}" class="start-button" (click)="StartStopChronometer()" #mainButton></button>
+    <button id="reset-button-id{{ chronometerProvider.Model.id }}" class="reset-button" (click)="ResetChronometer()">Reset</button>
+    <button id="remove-button-id{{ chronometerProvider.Model.id }}" class="remove-button" (click)="RemoveChronometer()">Remove</button>
+</div>

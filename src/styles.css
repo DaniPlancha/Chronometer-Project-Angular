@@ -1,1 +1,42 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    animation: changeColor 20s infinite;
+    animation-direction: alternate;
+}
+
+@keyframes changeColor {
+    0% {
+        background-color: indianred;
+    }
+
+    20% {
+        background-color: orange;
+    }
+    
+    40% {
+        background-color: yellow;
+    }
+    
+    60% {
+        background-color: lightgreen;
+    }
+    
+    80% {
+        background-color: deepskyblue;
+    }
+    
+    100% {
+        background-color: mediumvioletred;
+    }
+}
+
+app-root {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
