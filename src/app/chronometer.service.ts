@@ -8,9 +8,9 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ChronometerService {
+  
   constructor(private httpClient: HttpClient) { }
   public providers: Map<number, ChronometerProvider> = new Map;
-
   private connection!: signalR.HubConnection;
   
   public register(): void {
@@ -58,7 +58,6 @@ export class ChronometerService {
     let provider = new ChronometerProvider(model);
     this.providers.set(model.id, provider);
   }
-
   removeChronometer(id: number) {
     // let provider = this.allProviders[id];
     // provider.resetTimer();
