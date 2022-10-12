@@ -1,27 +1,24 @@
 import { ChronometerProvider } from './../models/chronometerProvider';
 import { ChronometerService } from './../chronometer.service';
-import { Component, Input, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 
 @Component({
   selector: 'chronometer',
   templateUrl: './chronometer.component.html',
   styleUrls: ['./chronometer.component.css']
 })
-export class ChronometerComponent implements OnInit {
-  ngOnInit(): void { }
-  constructor(private service: ChronometerService) { }
+export class ChronometerComponent {
   
+  constructor(private service: ChronometerService) { }
   @Input() chronometerProvider!: ChronometerProvider;
 
-  StartStopChronometer() {
-    this.chronometerProvider.StartStopChronometer();
+  updateChronometer() {
+    this.service.updateChronometer(this.chronometerProvider.Model);
   }
-
-  ResetChronometer() {
+  resetChronometer() {
     this.chronometerProvider.resetTimer();
   }
-
-  RemoveChronometer() {
-    this.service.removeChronometer(this.chronometerProvider.Model.id);
+  removeChronometer() {
+    // this.service.removeChronometer(this.chronometerProvider.Model.id);
   }
 }

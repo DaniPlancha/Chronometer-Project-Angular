@@ -24,6 +24,7 @@ export class ChronometerService {
       .catch(err => console.log(err));
       
     this.createAddListener();
+    this.createUpdateListener();
     this.getChronometers();
   }
 
@@ -36,30 +37,45 @@ export class ChronometerService {
       console.log('< post successful ! >')
     });
   }
-  public getChronometers() : void {
+  public updateChronometer(model : ChronometerModel) : void {
+    this.httpClient.put('https://localhost:5001/api/chronometer', model)
+    .subscribe(() => {
+      console.log('< put successful ! >');
+    });
+  }
+  private getChronometers() : void {
     this.httpClient.get<ChronometerModel[]>('https://localhost:5001/api/chronometer')
     .subscribe((models : ChronometerModel[]) => {
+
       models.forEach((currentModel) => {
         this.providers.set(currentModel.id, new ChronometerProvider(currentModel));
+        if (this.providers.get(currentModel.id)?.Model.isRunning) {
+          this.providers.get(currentModel.id)?.startTimer();
+        }
       });
+
       console.log('< get successful ! > ');
     });
   }
-
 
   private createAddListener() : void {
     this.connection.on('Add', (model) => {
       this.addChronometerData(model);
     });
   }
+  private createUpdateListener() : void {
+    this.connection.on('Update', (id : number) => {
+      this.providers.get(id)?.updateChronometer();
+    });
+  }
   private addChronometerData(model : ChronometerModel) : void {
     let provider = new ChronometerProvider(model);
     this.providers.set(model.id, provider);
   }
-  removeChronometer(id : number) {
-    // let provider = this.allProviders[id];
-    // provider.resetTimer();
-    // provider.isRemoved = true;
-    // delete this.allProviders[id];
-  }
+  // removeChronometer(id : number) {
+  //   let provider = this.allProviders[id];
+  //   provider.resetTimer();
+  //   provider.isRemoved = true;
+  //   delete this.allProviders[id];
+  // }
 }

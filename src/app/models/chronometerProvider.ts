@@ -5,17 +5,17 @@ export class ChronometerProvider {
         public Model: ChronometerModel
     ) {}
 
-    interval: any;
-    isRemoved: boolean = false;
+    private interval: any;
+    public isRemoved: boolean = false;
 
-    StartStopChronometer() {
+    public updateChronometer() {
         if (!this.Model.isRunning) {
           this.startTimer();
         } else {
           this.stopTimer();
         }
       }
-    startTimer() {
+    public startTimer() {
         this.Model.isRunning = true;
         this.interval = setInterval(() => {
             this.Model.timer.milliseconds += 1;
@@ -29,13 +29,11 @@ export class ChronometerProvider {
             }
         }, 100)
     }
-
-    stopTimer() {
+    private stopTimer() {
         this.Model.isRunning = false;
         clearInterval(this.interval);
     }
-
-    resetTimer() {
+    public resetTimer() {
         this.stopTimer();
         this.Model.timer.minutes = 0;
         this.Model.timer.seconds = 0;
