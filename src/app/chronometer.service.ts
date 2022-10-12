@@ -13,7 +13,7 @@ export class ChronometerService {
 
   private connection!: signalR.HubConnection;
   
-  public startConnection(): void {
+  public register(): void {
     this.connection = new signalR.HubConnectionBuilder()
       .withUrl('https://localhost:5001/chronometersSignalR')
       .build();
@@ -22,6 +22,9 @@ export class ChronometerService {
       .start()
       .then(() => { console.log('< connection started successfully ! >') })
       .catch(err => console.log(err));
+      this.createAddListener();
+      this.getChronometers();
+  
   }
 
   public addChronometer(): void {
@@ -29,31 +32,28 @@ export class ChronometerService {
       headers: {
         'Content-Type': 'application/json'
       }
-    }).subscribe(() => {console.log('< post successful ! >')});
+    }).subscribe(() => {
+      console.log('< post successful ! >')
+    });
+  }
+  public getChronometers():void {
+    this
+      .httpClient.get<ChronometerModel[]>('https://localhost:5001/api/chronometer')
+      .subscribe((models: ChronometerModel[]) => {
+        models.forEach((currentModel) => {
+          this.providers.set(currentModel.id, new ChronometerProvider(currentModel));
+        });
+        console.log('< get successful ! > ');
+      });
+    console.log();
   }
 
-  public createAddListener(): void {
+
+  private createAddListener(): void {
     this.connection.on('Add', (model) => {
       this.addChronometerData(model);
     });
   }
-  
-  public createGetListener(): void {
-    this.connection.on('Get', (models: any[]) => {
-      models.forEach((currentModel) => {
-        this.providers.set(currentModel.id, new ChronometerProvider(currentModel));
-      });
-    });
-  }
-
-  public getChronometers() {
-    this.httpClient.get('https://localhost:5001/api/chronometer', {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).subscribe((res) => {console.log('< get successful ! >' + res)});
-  }
-
   private addChronometerData(model: ChronometerModel): void {
     let provider = new ChronometerProvider(model);
     this.providers.set(model.id, provider);
