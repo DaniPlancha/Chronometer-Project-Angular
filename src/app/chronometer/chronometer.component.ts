@@ -16,9 +16,9 @@ export class ChronometerComponent {
     this.service.updateChronometer(this.chronometerProvider.Model);
   }
   resetChronometer() {
-    this.chronometerProvider.resetTimer();
+    this.service.resetChronometer(this.chronometerProvider.Model.id);
   }
   removeChronometer() {
-    // this.service.removeChronometer(this.chronometerProvider.Model.id);
+    this.service.removeChronometer(this.chronometerProvider.Model.id);
   }
 }

@@ -8,6 +8,10 @@ export class ChronometerProvider {
     private interval: any;
     public isRemoved: boolean = false;
 
+    public changeIsRemoved() : void {
+        this.isRemoved = !this.isRemoved;
+    }
+
     public updateChronometer() {
         if (!this.Model.isRunning) {
           this.startTimer();
