@@ -48,9 +48,20 @@ export class ChronometerService {
     });
   }
   public resetChronometer(id : number) : void {
-    
+    this.httpClient.put(this.route, {
+      Id : id,
+      Timer : {
+        milliseconds : 0,
+        seconds : 0,
+        minutes : 0
+      },
+      IsRunning : true
+    })
+    .subscribe(() => {
+      console.log('< put successful ! >');
+    });
   }
-  public removeChronometer(id : number) {
+  public removeChronometer(id : number) : void {
     this.httpClient.delete(this.route, {
       body : id
     }).subscribe(() => {
@@ -79,8 +90,12 @@ export class ChronometerService {
     });
   }
   private createUpdateListener() : void {
-    this.connection.on('Update', (id : number) => {
-      this.providers.get(id)?.updateChronometer();
+    this.connection.on('Update', (model : ChronometerModel) => {
+      if (model.timer.milliseconds == 0 && model.timer.seconds == 0 && model.timer.minutes == 0 && !model.isRunning) {
+        this.providers.get(model.id)?.resetTimer();
+      } else {
+        this.providers.get(model.id)?.updateChronometer();
+      }
     });
   }
   private createDeleteListener() : void {

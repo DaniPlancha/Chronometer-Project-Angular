@@ -14,11 +14,11 @@ export class ChronometerProvider {
 
     public updateChronometer() {
         if (!this.Model.isRunning) {
-          this.startTimer();
+            this.startTimer();
         } else {
-          this.stopTimer();
+            this.stopTimer();
         }
-      }
+    }
     public startTimer() {
         this.Model.isRunning = true;
         this.interval = setInterval(() => {
