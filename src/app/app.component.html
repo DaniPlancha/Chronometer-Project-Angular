@@ -4,5 +4,5 @@
 
 <button class="add-timer-button" (click)="addChronometer()">Add Chronometer</button>
 <div class="mega-wrap" id="mega-wrap">
-  <chronometer *ngFor="let provider of chronometerService.providers.values()" [chronometerProvider] = "provider"></chronometer>
+  <chronometer *ngFor="let provider of chronometerService.getProviders()" [chronometerProvider] = "provider"></chronometer>
 </div>

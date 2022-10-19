@@ -14,7 +14,15 @@ export class ChronometerService {
   private connection !: signalR.HubConnection;
   private route : string = 'https://localhost:5001/api/chronometer';
   
+  public getProviders() : ChronometerProvider[] {
+    let providers: ChronometerProvider[] = [];
 
+    this.providers.forEach((provider) => {
+      providers.push(provider);
+    });
+
+    return providers;
+  }
   public register() : void {
     this.connection = new signalR.HubConnectionBuilder()
       .withUrl('https://localhost:5001/chronometersSignalR')
@@ -42,7 +50,15 @@ export class ChronometerService {
     });
   }
   public updateChronometer(model : ChronometerModel) : void {
-    this.httpClient.put(this.route, model)
+    this.httpClient.put(this.route, {
+      Id : model.id,
+      Timer : {
+        milliseconds : model.timer.milliseconds,
+        seconds : model.timer.seconds,
+        minutes : model.timer.minutes
+      },
+      IsRunning : !model.isRunning
+    })
     .subscribe(() => {
       console.log('< put successful ! >');
     });
@@ -55,7 +71,7 @@ export class ChronometerService {
         seconds : 0,
         minutes : 0
       },
-      IsRunning : true
+      IsRunning : false
     })
     .subscribe(() => {
       console.log('< put successful ! >');
